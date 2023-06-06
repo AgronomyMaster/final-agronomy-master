@@ -6,8 +6,16 @@ import { useCookies } from "react-cookie";
 import "./styles/cart.css";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
+import qr from "../Images/Scan_Now_to_Dispatch_your_Order.png"
 // import Typography from '@mui/material/Typography';
 
+const qrpopup=document.getElementById("qrpopup")
+function OpenQrPopup(){
+  qrpopup.classList.add("openQrPopup")
+}
+function CloseQrPopup(){
+  qrpopup.classList.remove("openQrPopup")
+}
 function Cart() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -108,7 +116,6 @@ function Cart() {
     <div className="cart-overlay">
       <div className="cart-container">
         <h1>Products Cart</h1>
-        <span>10 products found</span>
 
         <div className="product-list">
           {data.map((product) => (
@@ -147,11 +154,7 @@ function Cart() {
                   Delete Product
                 </button>
               </div>
-              <div className="quantity">
-                <button onClick={() => handleDecreaseQuantity(product._id)}>-</button>
-                <span>{product.quantity}</span>
-                <button onClick={() => handleIncreaseQuantity(product._id)}>+</button>
-              </div>
+              <div>
               <div className="buy-button">
                 <p>
                   <b> Free Shipment..!</b>
@@ -159,17 +162,30 @@ function Cart() {
                 <button>
                   Rent Now
                 </button>
-              </div>
 
+                
+              </div>
+              <div className="quantity">
+                <button class="decrease" onClick={() => handleDecreaseQuantity(product._id)}>-</button>
+                <span>{product.quantity}</span>
+                <button class="increase" onClick={() => handleIncreaseQuantity(product._id)}>+</button>
+              </div>
+           </div>
             </div>
           ))}
         </div>
         <div className="total">
-          <hr></hr><br></br>
+
           <h3>Total Cost: {calculateTotalAmount()} Only/-</h3>
-          <hr></hr><br></br>
-          <button> Rent all products</button>
+
+          <button onClick={OpenQrPopup}> Rent all products</button>
+          
         </div>
+        <div className="qr-popup" id="qrpopup">
+           <img src={qr}  alt="qr code"/><br></br>
+           <button onClick={CloseQrPopup}>OK</button>
+          </div>
+        
       </div>
 
     </div>
